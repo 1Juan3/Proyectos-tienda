@@ -1,0 +1,67 @@
+necesita que los cmpos no sea obligatorio 
+necesita que los algunos campos se oculten 
+
+login
+usariuo 
+clave
+
+agregar empleado actualizacion 
+
+
+Modelo  de agregar productos
+Imagen 
+nombre
+codigo
+precio compras
+precio venta 
+stock 
+categoria --> si se puede en el mismo 
+
+Modulo de ventas 
+que se pueda ver el producto imagen 
+stock 
+precio venta 
+codigo 
+nombre 
+carrito 
+
+que tipo de cliente es 
+cuantos dias va a pagar 
+
+
+modulo cartera este modulo es para los clientes a credito
+nombre cliente 
+fecha 
+valor de la venta 
+la factura 
+codigo de productos 
+
+tiket 
+nombre cliente 
+fecha de venta 
+credito o contado 
+lista 
+factura 
+mismos datos si no con tabla 
+
+este modulo va a alojar las vcentas a credito 
+
+registro ventas 
+van a ir todas las ventas 
+
+modulo agregar cliente 
+nombre completo 
+razon social
+direccion 
+celular
+categoria 
+
+
+
+al iniciar sesio necita que se vean los productos 
+que sea responsivo 
+azul 
+blanco 
+
+
+
