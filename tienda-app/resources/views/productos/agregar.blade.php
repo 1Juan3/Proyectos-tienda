@@ -9,7 +9,7 @@
         <link rel="stylesheet" href="https://cdn.datatables.net/1.13.4/css/jquery.dataTables.min.css">
         {{-- <link rel="stylesheet" href="https://cdn.datatables.net/buttons/2.4.1/css/buttons.dataTables.min.css"> --}}
     </x-slot>
-    <section style="display: flex; justify-content: center; align-items: baseline">
+    <section style="display: flex; justify-content: center; align-items: baseline; margin-bottom: 20px">
         <strong style="width: 50%">Productos</strong>
 
 
@@ -57,7 +57,7 @@
                             </div>
                             <div class="form-floating mb-3">
                                 <input type="text" class="form-control" id="floatingInput2"placeholder="Categoria"
-                                    name="categoria">
+                                    name="category_id">
                                 <label>Categoria</label>
                             </div>
                             <div class="form-floating mb-3">
@@ -79,61 +79,85 @@
             </div>
         </div>
     </section>
-    @foreach ($productos as $producto)
-        <div class="bd-example m-0 border-0">
-            <div class="card" style="width: 18rem;">
-                <svg class="bd-placeholder-img card-img-top" width="100%" height="180"
-                    xmlns="http://www.w3.org/2000/svg" role="img"
-                    aria-label="Marcador de posición: límite de imagen" preserveAspectRatio="xMidYMid slice"
-                    focusable="false">
-                    <title>Placeholder</title>
-                    <rect width="100%" height="100%" fill="#868e96"></rect><text x="50%" y="50%" fill="#dee2e6"
-                        dy=".3em">Image cap</text>
-                </svg>
-                <div class="card-body">
-                    <h5 class="card-title">
-                        <font style="vertical-align: inherit;">
-                            <font style="vertical-align: inherit;">{{ $producto->nombre }}</font>
-                        </font>
-                    </h5>
-                    <p class="card-text">
-                        <font style="vertical-align: inherit;">
-                            <font style="vertical-align: inherit;">Un texto de ejemplo rápido para desarrollar el
-                                título de
-                                la tarjeta y constituir la mayor parte del contenido de la tarjeta.</font>
-                        </font>
-                    </p>
-                </div>
-                <ul class="list-group list-group-flush">
-                    <li class="list-group-item">
-                        <font style="vertical-align: inherit;">
-                            <font style="vertical-align: inherit;">un artículo</font>
-                        </font>
-                    </li>
-                    <li class="list-group-item">
-                        <font style="vertical-align: inherit;">
-                            <font style="vertical-align: inherit;">un segundo elemento</font>
-                        </font>
-                    </li>
-                    <li class="list-group-item">
-                        <font style="vertical-align: inherit;">
-                            <font style="vertical-align: inherit;">un tercer elemento</font>
-                        </font>
-                    </li>
-                </ul>
-                <div class="card-body">
-                    <a href="#" class="card-link">
-                        <font style="vertical-align: inherit;">
-                            <font style="vertical-align: inherit;">Enlace de tarjeta </font>
-                        </font>
-                    </a>
-                    <a href="#" class="card-link">
-                        <font style="vertical-align: inherit;">
-                            <font style="vertical-align: inherit;">Otro enlace</font>
-                        </font>
-                    </a>
-                </div>
+    <div class="container">
+        <form action="{{ route('indexPorduct') }}" method="GET" class="mb-4">
+            <div class="input-group">
+                <input type="text" class="form-control" name="query" id="searchQuery"
+                    placeholder="Buscar productos...">
+                <button class="btn btn-outline-secondary" type="submit">Buscar</button>
             </div>
+        </form>
+
+        <div id="resultados"></div>
+    </div>
+    <div class="container fluid mx-auto">
+        <div class="row">
+            @foreach ($productos as $producto)
+                <div class="bd-example  border-1 col-sm-10  col-md-8 col-lg-6    col-xl-3 col-xxl-2 mx-auto  mb-4"
+                    id="producto_{{ $producto->id }}">
+                    <div class="card" style="width: 15rem;">
+                        <img src="{{ route('verImagen', $producto->imagen) }}" alt="imagen equipo"
+                            style="height: 300px">
+                        <div class="card-body">
+                            <h5 class="card-title">{{ $producto->nombre }}</h5>
+                        </div>
+                        <ul class="list-group list-group-flush">
+                            <li class="list-group-item">
+
+                                <p><b>Precio de venta: </b> {{ $producto->precio_venta }}</p>
+                                <p><b>Precio de compra: </b> {{ $producto->precio_compra }}</p>
+                                <p><b>Codigo: </b> {{ $producto->codigo }}</p>
+                                <p><b>Unidades</b> {{ $producto->stock }}</p>
+                            </li>
+                        </ul>
+                        <div class="card-body container-fluid mx-auto">
+                            <a class="btn btn-warning mt-5 "
+                                href="{{ route('verActualizarPorduct', $producto->id) }}">
+                                Actualizar información
+                            </a>
+                            <form action="{{ route('deletePorduct', $producto->id) }}" class="eliminar">
+                                @csrf
+                                @method('POST')
+                                <button class="btn btn-danger mt-5" type="submit" id="deleteItem">Eliminar</button>
+                            </form>
+
+
+                        </div>
+                    </div>
+
+
+                </div>
+            @endforeach
         </div>
-    @endforeach
+
+    </div>
+    <x-slot name="scripts">
+        <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+        <script>
+            $('#deleteItem').click(function(e) {
+                e.preventDefault();
+
+                var form = $(this).parents('form');
+                swal({
+                    title: "¿Estás seguro?",
+                    text: "Al eliminar esto se borrarán todos los registros.",
+                    icon: "info",
+                    buttons: {
+                        cancel: "Cancelar",
+                        confirm: "Confirmar",
+                    },
+                }).then((willDelete) => {
+                    if (willDelete) form.submit();
+                });
+            });
+        </script>
+        <script>
+            const imputs = document.getElementById('searchQuery');
+            inputs.addEventListener('keyup', (e) => {
+
+            })
+        </script>
+    </x-slot>
+
 </x-layout>
