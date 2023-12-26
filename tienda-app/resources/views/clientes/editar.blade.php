@@ -16,6 +16,17 @@
                         <label>Razon social</label>
                     </div>
                     <div class="form-floating mb-3">
+                        <input type="text" class="form-control" id="floatingInput2"placeholder="Correo electronico"
+                        value="{{ $cliente->correo }}"
+                            name="correo">
+                        <label>Correo electronico</label>
+                    </div>
+                    <div class="form-floating mb-3">
+                        <input type="text" class="form-control" id="floatingInput2"placeholder="Nit" value="{{ $cliente->nit }}"
+                            name="nit">
+                        <label>Nit</label>
+                    </div>
+                    <div class="form-floating mb-3">
                         <input type="text" class="form-control" id="floatingInput2"placeholder="Direccion"
                             value="{{ $cliente->direccion }}" name="direccion">
                         <label>Dirección del cliente</label>

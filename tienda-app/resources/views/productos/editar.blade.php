@@ -1,4 +1,4 @@
-<x-layout titulo="Editar productos">
+<x-layout titulo="Editar cliente">
     <div class="container mx-auto ">
         <h1 class="text-center">Actualizar Producto {{ $item->nombre }}</h1>
         <div class="row">
@@ -34,7 +34,7 @@
                     </div>
                     <div class="form-floating mb-3">
                         <input type="text" class="form-control" id="floatingInput2"placeholder="Categoria"
-                            name="categoria" value="{{ $item->categoria }}">
+                            name="category_id" value="{{ $item->categoria }}">
                         <label>Categoria</label>
                     </div>
                     <div class="form-floating mb-3">

@@ -20,7 +20,7 @@ class ClientController extends Controller
 
         // Guardar el cliente en la base de datos
         $cliente->save();
-        toastr()->success('¡El Cliente  se agrego con exito correctamente!', 'Actualizado');
+        toastr()->success('¡El Cliente  se agrego con exito correctamente!', 'Creado');
         return redirect()->route('indexClient');
     }
 

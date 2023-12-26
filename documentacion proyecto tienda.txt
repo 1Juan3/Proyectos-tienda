@@ -18,7 +18,7 @@ stock
 categoria --> si se puede en el mismo 
 
 Modulo de ventas 
-que se pueda ver el producto imagen 
+imagen 
 stock 
 precio venta 
 codigo 
@@ -61,7 +61,15 @@ categoria
 al iniciar sesio necita que se vean los productos 
 que sea responsivo 
 azul 
-blanco 
+blanco }
+
+cambios 12/!2/23
+cambiar el carrito 
+que no se vea la imagen 
+ponerlo es el siuguiente orden 
+codigo, nombre, cvalor uni, cat , quitar eliminar y subtotal 
+
+clientes poner otra campo que diga porcentaje 
 
 
 

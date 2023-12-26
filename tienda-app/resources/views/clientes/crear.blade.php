@@ -8,13 +8,11 @@
         <link rel="stylesheet" href="https://cdn.datatables.net/1.13.4/css/jquery.dataTables.min.css">
         {{-- <link rel="stylesheet" href="https://cdn.datatables.net/buttons/2.4.1/css/buttons.dataTables.min.css"> --}}
     </x-slot>
-    <section style="display: flex; justify-content: center; align-items: baseline; margin-bottom: 20px">
-        <strong style="width: 50%">Clientes</strong>
-
-
+    <section style="display: flex; justify-content: center; align-items: center; margin-bottom: 20px">
+        
 
         <!-- Button trigger modal -->
-        <button type="button" class="btn btn-success mt-5" data-bs-toggle="modal" data-bs-target="#exampleModal">
+        <button type="button"  style="color: white; background-color: rgb(240, 46, 3); border-radius: 10px; border: none; padding: 10px; margin-top: 30px" data-bs-toggle="modal" data-bs-target="#exampleModal">
             Crear cliente
         </button>
 
@@ -40,6 +38,16 @@
                                 <label>Razon social</label>
                             </div>
                             <div class="form-floating mb-3">
+                                <input type="text" class="form-control" id="floatingInput2"placeholder="Correo electronico"
+                                    name="correo">
+                                <label>Correo electronico</label>
+                            </div>
+                            <div class="form-floating mb-3">
+                                <input type="text" class="form-control" id="floatingInput2"placeholder="Nit"
+                                    name="nit">
+                                <label>Nit</label>
+                            </div>
+                            <div class="form-floating mb-3">
                                 <input type="text" class="form-control" id="floatingInput2"placeholder="Direccion"
                                     name="direccion">
                                 <label>Dirección del cliente</label>
@@ -54,10 +62,15 @@
                                     name="category_id">
                                 <label>Categoria</label>
                             </div>
+                            <div class="form-floating mb-3">
+                                <input type="number" class="form-control" id="floatingInput2"placeholder="porcentaje"
+                                    name="porcentaje">
+                                <label>Porcentaje</label>
+                            </div>
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
-                        <button type="submit" class="btn btn-primary">Crear producto</button>
+                        <button type="submit" class="btn btn-primary">Crear cliente</button>
                     </div>
                     </form>
                 </div>
@@ -65,13 +78,15 @@
         </div>
     </section>
     <div class="bd-example">
-        <table class="table table-striped table-hover border-dark " id="clientes">
+        <table class="table table-striped table-hover table-bordered " id="clientes">
 
-            <thead>
+            <thead class="table-dark">
                 <tr>
-                    <th scope="col">Nombe del cliente</th>
+                    <th scope="col">Nombe  cliente</th>
                     <th scope="col">Razon social</th>
                     <th scope="col">Direccion</th>
+                    <th scope="col">Correo</th>
+                    <th scope="col">Nit</th>
                     <th scope="col">Celular</th>
                     <th scope="col">Categoria</th>
                     <th scope="col">Editar</th>
@@ -83,6 +98,8 @@
                     <th scope="col">Nombe del cliente</th>
                     <th scope="col">Razon social</th>
                     <th scope="col">Direccion</th>
+                    <th scope="col">Correo</th>
+                    <th scope="col">Nit</th>
                     <th scope="col">Celular</th>
                     <th scope="col">Categoria</th>
                     <th scope="col">editar</th>
@@ -96,13 +113,13 @@
                         <td>{{ $cliente->nombre_completo }}</td>
                         <td>{{ $cliente->razon_social }}</td>
                         <td>{{ $cliente->direccion }}</td>
+                        <td>{{ $cliente->correo }}</td>
+                        <td>{{ $cliente->nit }}</td>
                         <td>{{ $cliente->celular }}</td>
                         <td>{{ $cliente->categoria }}</td>
-                        <td> <a href="{{ route('verActualizar', $cliente->id) }}" style="color:black;"><i
-                                    class="bi bi-pencil-square"></i></a></td>
+                        <td> <a href="{{ route('verActualizar', $cliente->id) }}" style="color:black;"><i class="fa-solid fa-user-pen"></i></a></td>
                         <td>
-                            <a href="{{ route('deleteClient', $cliente->id) }}" style="color:red;"><i
-                                    class="bi bi-trash"></i></a>
+                            <a href="{{ route('deleteClient', $cliente->id) }}" style="color:red;"><i class="fa-solid fa-trash"></i></a>
                         </td>
                 @endforeach
                 </tr>
@@ -129,8 +146,7 @@
                     var title = $(this).text();
                     $(this).html('<input type="text" placeholder="Buscar ' + title + '" />');
                 });
-                $('#reactivos').DataTable({
-
+                $('#clientes').DataTable({
                     responsive: true,
                     autoWidth: false,
                     fixedHeader: true,
@@ -138,7 +154,7 @@
 
                     "language": {
                         "lengthMenu": "Mostrar _MENU_ clientes por pagina",
-                        "zeroRecords": "No se encontraron registros - Lo siento",
+                        "zeroRecords": "No se encontraron clientes - Lo siento",
                         "info": "Mostrando la pagina _PAGE_ de _PAGES_",
                         "infoEmpty": "No se encontro resultado para su busqueda",
                         "infoFiltered": "(filtrado de _MAX_ total clientes totales)",

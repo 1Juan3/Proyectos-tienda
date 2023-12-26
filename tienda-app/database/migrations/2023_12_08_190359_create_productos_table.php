@@ -16,10 +16,11 @@ return new class extends Migration
             $table->string('imagen')->nullable();
             $table->string('nombre')->nullable();
             $table->string('codigo')->nullable();
-            $table->decimal('precio_compra', 8, 2)->nullable();
-            $table->decimal('precio_venta', 8, 2)->nullable();
+            $table->integer('precio_compra')->nullable();
+            $table->integer('precio_venta')->nullable();
             $table->decimal('stock')->nullable();
             $table->integer('category_id')->nullable();
+            $table->integer('tienda_id')->nullable();
             $table->timestamps();
         });
     }
