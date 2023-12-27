@@ -42,8 +42,11 @@
                             value="{{ $item->imagen }}">
                         <label>Imagen del producto</label>
                     </div>
-                    <a href="{{ route('indexPorduct') }}">Regresar</a>
-                    <button type="submit" class="btn btn-primary">Actualizar</button>
+                    <div style="display: flex; justify-content: space-between;">
+                        <a  href="{{ route('indexPorduct', ['id' => session('tienda_seleccionada')]) }}" style="color:rgb(240, 46, 3)">Regresar</a>
+                        <button type="submit"  style="color: white; background-color: rgb(240, 46, 3); border-radius: 10px; border: none; padding: 10px;">Actualizar</button>
+                    </div>
+             
             </div>
         </div>
     </div>

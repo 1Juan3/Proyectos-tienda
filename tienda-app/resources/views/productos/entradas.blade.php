@@ -57,6 +57,7 @@
 																																<input type="file" class="form-control" placeholder="imagen" name="imagen">
 																																<label>Imagen del producto</label>
 																												</div>
+																												<input type="hidden" name="tienda_id" value="{{ session('tienda_seleccionada') }}">
 
 																				</div>
 																				<div class="modal-footer">

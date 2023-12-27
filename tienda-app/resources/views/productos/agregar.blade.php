@@ -67,6 +67,15 @@
                                 <input type="file" class="form-control" placeholder="imagen" name="imagen">
                                 <label>Imagen del producto</label>
                             </div>
+                            @foreach ($tiendas as $tienda)
+                            <div class="form-check">
+                                <input class="form-check-input" type="checkbox" value="{{ $tienda->id }}" id="flexCheckDefault{{ $tienda->id }}" name='tienda_id[]'>
+                                <label class="form-check-label" for="flexCheckDefault{{ $tienda->id }}">
+                                    <b>{{ $tienda->nombre_tienda }}</b>
+                                </label>
+                            </div>
+                        @endforeach
+                        
 
 
 
@@ -93,6 +102,7 @@
                     <th scope="col">Precio compra</th>
                     <th scope="col">Precio venta</th>
                     <th scope="col">Stock</th>
+                    <th scope="col">Add entrada</th>
                     <th scope="col">Editar</th>
                     <th scope="col">Eliminar</th>
                 </tr>
@@ -105,6 +115,7 @@
                     <th scope="col">Precio compra</th>
                     <th scope="col">Precio venta</th>
                     <th scope="col">Stock</th>
+                    <th scope="col">Add entrada</th>
                     <th scope="col">editar</th>
                     <th scope="col">eliminar</th>
                 </tr>
@@ -120,7 +131,7 @@
 
                         </td>
                         <td>
-                            <a href="{{ route('product.formulario', $producto->codigo) }}" style="color: rgb(240, 46, 3);">
+                            <a href="{{ route('product.buscar', $producto->codigo) }}" style="color: rgb(240, 46, 3);">
                                 {{ $producto->nombre }}
                             </a>
                            </td>
@@ -133,7 +144,9 @@
                             <td style="color: red;">Producto Agotado</td>
                             
                         @endif
-                        
+                        <td>
+                            <a href="{{ route('product.formulario', $producto->codigo) }}" style="color:rgb(240, 46, 3);"><i class="fa-solid fa-plus"></i></a>
+                        </td>
                         <td> <a href="{{ route('verActualizarPorduct', $producto->id) }}" style="color:black;"><i class="fa-solid fa-user-pen"></i></a></td>
                         <td>
                             <a href="{{ route('deletePorduct', $producto->id) }}" style="color:red;"><i class="fa-solid fa-trash"></i></a>

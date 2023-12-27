@@ -21,6 +21,7 @@ return new class extends Migration
             $table->string('direccion')->nullable();
             $table->string('celular')->nullable();
             $table->integer('category_id')->nullable();
+            $table->integer('tienda_id')->nullable();
             $table->timestamps();
         });
     }

@@ -19,6 +19,7 @@ return new class extends Migration
             $table->string('correo_electronico')->unique();
             $table->string('direccion')->nullable();
             $table->string('celular')->nullable();
+            $table->integer('tienda_id');
             $table->timestamps();
         });
     }

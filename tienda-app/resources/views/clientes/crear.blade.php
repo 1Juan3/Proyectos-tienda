@@ -67,6 +67,15 @@
                                     name="porcentaje">
                                 <label>Porcentaje</label>
                             </div>
+                            <input type="hidden" name="tienda_id" value="{{ session('tienda_seleccionada') }}">
+                            @foreach ($tiendas as $tienda)
+                            <div class="form-check">
+                                <input class="form-check-input" type="checkbox" value="{{ $tienda->id }}" id="flexCheckDefault{{ $tienda->id }}" name='tiendas_id[]'>
+                                <label class="form-check-label" for="flexCheckDefault{{ $tienda->id }}">
+                                    <b>{{ $tienda->nombre_tienda }}</b>
+                                </label>
+                            </div>
+                        @endforeach
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>

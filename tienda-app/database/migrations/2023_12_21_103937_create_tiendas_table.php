@@ -14,6 +14,11 @@ return new class extends Migration
         Schema::create('tiendas', function (Blueprint $table) {
             $table->id();
             $table->string('nombre_tienda');
+            $table->string('direccion_tienda');
+            $table->string('telefono_tienda');
+            $table->string('email_tienda');
+            $table->string('nit_tienda');
+            $table->string('logo_tienda');
             $table->timestamps();
         });
     }

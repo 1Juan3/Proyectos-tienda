@@ -20,7 +20,7 @@ return new class extends Migration
             $table->integer('cantidad');
             $table->integer('subtotal');
             $table->integer('total');
-             // Campo entero sin signo 'numero_venta'
+            $table->integer('tienda_id');
             $table->string('tipo_venta')->default(true); // Campo booleano 'credito' con valor por defecto true
             $table->datetime('fecha_limite');
             $table->enum('estado', ['Pendiente', 'Pagado', 'Proceso'])->default('Pagado'); // Campo enum 'estado' con valores predefinidos

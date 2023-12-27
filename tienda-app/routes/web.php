@@ -1,53 +1,54 @@
 <?php
 
 use App\Http\Controllers\ProfileController;
-use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\ProductoController;
 use App\Http\Controllers\ClientController;
 use App\Http\Controllers\VentasController;
 use App\Http\Controllers\EntradasController;
 use App\Http\Controllers\FacturacionControler;
 use App\Http\Controllers\TiendaController;
-use App\Http\Controllers\LayoutController;
 use App\Http\Controllers\ProveedorController;
+use App\Http\Controllers\LayoutController;
+use Illuminate\Support\Facades\Route;
+
 /*
 |--------------------------------------------------------------------------
 | Web Routes
 |--------------------------------------------------------------------------
 |
-| Here is where you can register web routes for your application. These
-| routes are loaded by the RouteServiceProvider and all of them will
-| be assigned to the "web" middleware group. Make something great!
+| Aquí es donde puedes registrar las rutas web para tu aplicación. Todas
+| estas rutas son cargadas por RouteServiceProvider y se les asignará al
+| grupo de middleware "web". ¡Haz algo genial!
 |
 */
 
+// Ruta de inicio de sesión
 Route::get('/', function () {
     return view('auth.login');
 });
 
-
-
+// Rutas protegidas por el middleware de autenticación
 Route::middleware('auth')->group(function () {
+    // Rutas para el perfil del usuario
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 });
 
-
-#rutas para menejar todo con producto
+// Rutas para manejar productos
 Route::middleware(['auth'])->group(function () {
     Route::controller(ProductoController::class)->group(function () {
         Route::get('/actualizar/{id}', 'actualizarProducto')->name('verActualizarPorduct');
         Route::get('/imagenproducto/{path}', 'verImagen')->name('verImagen');
         Route::get('/delete/{id}', 'delete')->name('deletePorduct');
-        Route::get('/productos', 'index')->name('indexPorduct');
+        Route::get('/productos/{id}', 'index')->name('indexPorduct');
         Route::post('/agregar_productos', 'crearProducto')->name('postPorduct');
         Route::post('update/producto/{id}', 'updateProducto')->name('updatedProducto');
         Route::post('/delete/{id}', 'delete')->name('deletePorduct');
     });
 });
 
-#rutas para manejar todo lo de clientes 
+// Rutas para manejar clientes
 Route::middleware(['auth'])->group(function () {
     Route::controller(ClientController::class)->group(function () {
         Route::post('/agregar_clientes', 'crearCliente')->name('postClient');
@@ -59,23 +60,20 @@ Route::middleware(['auth'])->group(function () {
     });
 });
 
-
-#para manejar tod con ventas
+// Rutas para manejar ventas
 Route::middleware(['auth'])->group(function () {
     Route::controller(VentasController::class)->group(function () {
         Route::get('/ventas', 'cart')->name('indexVentas');
-        Route::post('/cart-add',    'add')->name('cart.add');
-        Route::post('/cart-addbarcode',    'barcode')->name('cart.barcode');
+        Route::post('/cart-add', 'add')->name('cart.add');
+        Route::post('/cart-addbarcode', 'barcode')->name('cart.barcode');
         Route::get('/cart-checkout', 'cart')->name('cart.checkout');
-        Route::get('/cart-clear',  'clear')->name('cart.clear');
-        Route::post('/cart-removeitem',  'removeitem')->name('cart.removeitem');
-        Route::post('/cart-incrementar/{id}',  'incrementar')->name('cart.incrementar');
-        Route::post('/cart-decrementar',  'decrementar')->name('cart.decrementar');
-        Route::post('/cart-cantidad/{id}',  'Quantyti')->name('cart.actualizar');
+        Route::get('/cart-clear', 'clear')->name('cart.clear');
+        Route::post('/cart-removeitem', 'removeitem')->name('cart.removeitem');
+        Route::post('/cart-cantidad/{id}', 'Quantyti')->name('cart.actualizar');
     });
 });
 
-#para manejar todo con entradas 
+// Rutas para manejar entradas
 Route::middleware(['auth'])->group(function () {
     Route::controller(EntradasController::class)->group(function () {
         Route::get('/productos/entradas', 'index')->name('product.entradas');
@@ -85,7 +83,7 @@ Route::middleware(['auth'])->group(function () {
     });
 });
 
-#paar manejar todo con facturacion
+// Rutas para manejar facturación
 Route::middleware(['auth'])->group(function () {
     Route::controller(FacturacionControler::class)->group(function () {
         Route::get('/facturacion', 'store')->name('facturacionView');
@@ -95,20 +93,21 @@ Route::middleware(['auth'])->group(function () {
         Route::get('/historial', 'indexVentas')->name('historial');
         Route::post('/facturacion', 'facturacion')->name('facturacion');
         Route::get('/Abonos/{$id}', 'abonoView')->name('historial.abonos');
-        // Route::get('/historial/abonos/{$id}', 'historialAbonos')->name('tabla.abonos');
     });
 });
 
-#para manejar todo lo de crear tienmdas 
+// Rutas para manejar tiendas
 Route::middleware(['auth'])->group(function () {
     Route::controller(TiendaController::class)->group(function () {
-
-        Route::get('/tienda', 'index')->name('indexTienda');
+        Route::view('/crear-tienda', 'tienda.crear')->name('indexTienda');
+        Route::get('/tiendas', 'index')->name('indexTiendas');
         Route::post('/tienda', 'store')->name('storeTienda');
+        Route::get('/tiendas/{id}', 'seleccionarTienda')->name('showTiendas');
+        
     });
 });
 
-#para manejar todo con proveedor
+// Rutas para manejar proveedores
 Route::middleware(['auth'])->group(function () {
     Route::controller(ProveedorController::class)->group(function () {
         Route::get('/proveedor', 'index')->name('indexProveedore');
@@ -119,8 +118,9 @@ Route::middleware(['auth'])->group(function () {
         Route::get('/proveedor/show/{id_provedor}', 'showDetalle')->name('show.proveedore');
     });
 });
-Route::get('/histrial/abonos/{id}', [App\Http\Controllers\LayoutController::class, 'historialAbonos'])->name('tabla.abonos');
 
+// Ruta para el historial de abonos
+Route::get('/histrial/abonos/{id}', [LayoutController::class, 'historialAbonos'])->name('tabla.abonos');
 
-
+// Rutas de autenticación generadas por Laravel
 require __DIR__ . '/auth.php';

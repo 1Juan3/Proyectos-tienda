@@ -24,6 +24,14 @@
 
 												<nav style="background-color: rgb(240, 46, 3); ">
 																<ul>
+																				<li>
+																								<strong>
+																												<a href="{{ route("indexTienda") }}">
+																																<i class="fa-solid fa-shop" style="font-size: 20px"></i>
+																																<p style="margin: 0;">Add tiendas</p>
+																												</a>
+																								</strong>
+																				</li>
 
 																				<li>
 																								<strong>
@@ -41,23 +49,26 @@
 																												</a></strong>
 																				</li>
 																				<li>
-																								<strong> <a href="{{ route("indexPorduct") }}"style="">
-																																<i class="bi bi-basket3-fill" style="font-size: 20px;"></i>
-																																<p style="margin: 0;">Productos</p>
-																												</a></strong>
+																					<strong>
+																						<a href="{{ route('indexPorduct', ['id' => session('tienda_seleccionada')]) }}" style="">
+																							<i class="bi bi-basket3-fill" style="font-size: 20px;"></i>
+																							<p style="margin: 0;">Productos</p>
+																						</a>
+																					</strong>
 																				</li>
+																				
 																				<li>
 																								<strong> <a href="{{ route("indexClient") }}">
 																																<i class="bi bi-people-fill" style="font-size: 20px;"></i>
 																																<p style="margin: 0;">Clientes</p>
 																												</a></strong>
 																				</li>
-																				<li>
+																				{{-- <li>
 																								<strong> <a href="{{ route("product.entradas") }}">
 																																<i class="bi bi-house-add-fill" style="font-size: 20px;"></i>
 																																<p style="margin: 0;">Entradas</p>
 																												</a></strong>
-																				</li>
+																				</li> --}}
 
 																				<li>
 																								<strong> <a href="{{ route("historial") }}">
