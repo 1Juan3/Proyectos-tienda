@@ -58,6 +58,7 @@ return [
         'disco_imagenes' => [
             'driver' => 'local',
             'root' => 'C:\images_productos_tienda',
+           
         ],
 
     ],

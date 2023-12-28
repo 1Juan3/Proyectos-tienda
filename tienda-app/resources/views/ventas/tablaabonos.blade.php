@@ -22,16 +22,7 @@
 																				<th scope="col">Fecha abono</th>
 																</tr>
 												</thead>
-												<tfoot>
-																<tr>
-																				<th scope="col">Venta</th>
-																				<th scope="col">Nombre cliente</th>
-																				<th scope="col">Sub total</th>
-																				<th scope="col">Monto abonado</th>
-																				<th scope="col">Total</th>
-																				<th scope="col">Fecha abono</th>
-																</tr>
-												</tfoot>
+
 												<tbody>
 
 																@foreach ($abonos as $abono)

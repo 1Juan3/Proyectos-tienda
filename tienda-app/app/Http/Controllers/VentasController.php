@@ -52,9 +52,20 @@ class VentasController extends Controller
 
     public function cart(Request $request)
     {
-        // Obtener todos los productos o buscar por término de búsqueda
+        // Obtén el término de búsqueda desde la solicitud
         $query = $request->input('query');
-        $productos = $query ? Producto::where('nombre', 'LIKE', '%' . $query . '%')->get() : Producto::all();
+
+        // Obtén el ID de la tienda seleccionada desde la sesión
+        $tiendaId = session('tienda_seleccionada');
+
+        // Realiza la consulta de productos
+        $productos = Producto::when($query, function ($queryBuilder) use ($query) {
+            // Si hay un término de búsqueda, aplica el filtro por nombre
+            return $queryBuilder->where('nombre', 'LIKE', '%' . $query . '%');
+        }, function ($queryBuilder) use ($tiendaId) {
+            // Si no hay término de búsqueda, filtra por el ID de la tienda seleccionada
+            return $queryBuilder->where('tienda_id', $tiendaId);
+        })->get();
 
         // Obtener los productos en el carrito
         $productosEnCarrito = Cart::content();

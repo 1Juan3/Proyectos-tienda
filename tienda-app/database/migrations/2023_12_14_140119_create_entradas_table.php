@@ -20,6 +20,7 @@ return new class extends Migration
             $table->integer('precio_venta')->nullable();
             $table->decimal('cantidad')->nullable();
             $table->integer('id_provedor')->nullable();
+            $table->integer('tienda_id')->nullable();
             $table->timestamps();
         });
     }

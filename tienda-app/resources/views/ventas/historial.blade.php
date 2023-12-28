@@ -47,7 +47,13 @@
 																								</td>
 																								<td>{{ $venta->cliente->nombre_completo }}</td>
 																								<td>{{ $venta->tipo_venta }}</td>
-																								<td>{{ $venta->estado }}</td>
+																								<td>
+																									@if ($venta->fecha_limite > $venta->created_at)
+																										Pendiente
+																									@else
+																										{{ $venta->estado }}
+																									@endif
+																								</td>
 																								<td>
 																												@if ($venta->tipo_venta !== "Contado")
 																																<a href="{{ route("tabla.abonos", $venta->venta_id) }}" style="color:rgb(255, 217, 0);">

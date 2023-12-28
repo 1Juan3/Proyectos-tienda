@@ -102,6 +102,7 @@
                     <th scope="col">Precio compra</th>
                     <th scope="col">Precio venta</th>
                     <th scope="col">Stock</th>
+                    <th scope="col">Transferir</th>
                     <th scope="col">Add entrada</th>
                     <th scope="col">Editar</th>
                     <th scope="col">Eliminar</th>
@@ -115,6 +116,7 @@
                     <th scope="col">Precio compra</th>
                     <th scope="col">Precio venta</th>
                     <th scope="col">Stock</th>
+                    <th scope="col">Transferir</th>
                     <th scope="col">Add entrada</th>
                     <th scope="col">editar</th>
                     <th scope="col">eliminar</th>
@@ -144,6 +146,9 @@
                             <td style="color: red;">Producto Agotado</td>
                             
                         @endif
+                        <td>
+                           <a href="{{route('pasar.product', $producto->id)}}" style="color:rgb(240, 46, 3);"><i class="fa-solid fa-truck-arrow-right"></i></a> 
+                        </td>
                         <td>
                             <a href="{{ route('product.formulario', $producto->codigo) }}" style="color:rgb(240, 46, 3);"><i class="fa-solid fa-plus"></i></a>
                         </td>

@@ -15,7 +15,7 @@ return new class extends Migration
             $table->id();
             $table->string('nombre_proveedor');
             $table->string('razon_social')->nullable();
-            $table->string('nit')->unique();
+            $table->string('nit');
             $table->string('correo_electronico')->unique();
             $table->string('direccion')->nullable();
             $table->string('celular')->nullable();

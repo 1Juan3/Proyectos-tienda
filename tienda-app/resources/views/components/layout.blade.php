@@ -21,72 +21,91 @@
 				<body style=" font-family: Arial, sans-serif;">
 
 								@auth
-
 												<nav style="background-color: rgb(240, 46, 3); ">
-																<ul>
-																				<li>
+																<ul
+																				style="list-style: none; padding: 0; display: flex; justify-content: space-around; align-items: center; height: 100%;">
+																				<li style="text-align: center; flex: 1;">
 																								<strong>
-																												<a href="{{ route("indexTienda") }}">
-																																<i class="fa-solid fa-shop" style="font-size: 20px"></i>
-																																<p style="margin: 0;">Add tiendas</p>
+																												<a href="{{ route("index.tiendas") }}" style="text-decoration: none; ">
+																																<i class="fa-solid fa-shop" style="font-size: 30px;"></i>
+																																<p style="margin: 0; font-size: 12px;">Tiendas</p>
 																												</a>
 																								</strong>
 																				</li>
 
-																				<li>
+																				<li style="text-align: center; flex: 1;">
 																								<strong>
-																												<a href="{{ route("indexVentas") }}">
-																																<i class="bi bi-cart-plus-fill" style="font-size: 20px; "></i>
-																																<p style="margin: 0;">Facturacion</p>
+																												<a href="{{ route("indexVentas") }}" style="text-decoration: none; ">
+																																<i class="fa-solid fa-cart-plus" style="font-size: 30px;"></i>
+																																<p style="margin: 0; font-size: 12px;">Facturacion</p>
 																												</a>
 																								</strong>
 																				</li>
 
-																				<li>
-																								<strong> <a href="{{ route("indexProveedore") }}"style="">
-																																<i class="fa-solid fa-dolly" style="font-size: 25px; pading-top: 1px"></i>
-																																<p style="margin: 0;">Proveedores</p>
-																												</a></strong>
+																				<li style="text-align: center; flex: 1;" >
+																								<strong>
+																												<a href="{{ route("indexProveedore") }}" style="text-decoration: none; ">
+																																<i class="fa-solid fa-dolly" style="font-size: 30px;"></i>
+																																<p style="margin: 0; font-size: 12px;">Proveedores</p>
+																												</a>
+																								</strong>
 																				</li>
-																				<li>
+
+																				<li style="text-align: center; flex: 1;">
+																								<strong>
+																												<a href="{{ route("indexPorduct", ["id" => session("tienda_seleccionada")]) }}"
+																																style="text-decoration: none; ">
+																																<i class="fa-solid fa-boxes-stacked" style="font-size: 30px;"></i>
+																																<p style="margin: 0; font-size: 12px;">Productos</p>
+																												</a>
+																								</strong>
+																				</li>
+																				<li style="text-align: center; flex: 1;">
 																					<strong>
-																						<a href="{{ route('indexPorduct', ['id' => session('tienda_seleccionada')]) }}" style="">
-																							<i class="bi bi-basket3-fill" style="font-size: 20px;"></i>
-																							<p style="margin: 0;">Productos</p>
-																						</a>
+																									<a href="{{ route('producto.transferencias') }}"
+																													style="text-decoration: none; ">
+																													<i class="fa-solid fa-truck-arrow-right" style="font-size: 30px;" ></i>
+																													<p style="margin: 0; font-size: 12px;">Tranferencias</p>
+																									</a>
 																					</strong>
-																				</li>
-																				
-																				<li>
-																								<strong> <a href="{{ route("indexClient") }}">
-																																<i class="bi bi-people-fill" style="font-size: 20px;"></i>
-																																<p style="margin: 0;">Clientes</p>
-																												</a></strong>
-																				</li>
-																				{{-- <li>
-																								<strong> <a href="{{ route("product.entradas") }}">
-																																<i class="bi bi-house-add-fill" style="font-size: 20px;"></i>
-																																<p style="margin: 0;">Entradas</p>
-																												</a></strong>
-																				</li> --}}
+																	</li>
 
-																				<li>
-																								<strong> <a href="{{ route("historial") }}">
-																																<i class="bi bi-card-checklist" style="font-size: 20px;"></i>
-																																<p style="margin: 0;">Historial</p>
-																												</a></strong>
+																				<li style="text-align: center; flex: 1;"  class="nav-item active">
+																								<strong>
+																												<a href="{{ route("indexClient") }}" style="text-decoration: none; ">
+																																<i class="fa-solid fa-users" style="font-size: 30px;"></i>
+																																<p style="margin: 0; font-size: 12px;">Clientes</p>
+																												</a>
+																								</strong>
+																				</li>
+																				<li style="text-align: center; flex: 1;">
+																								<strong>
+																												<a href="{{ route("users") }}" style="text-decoration: none; ">
+																																<i class="fa-solid fa-user-plus" style="font-size: 30px;"></i>
+																																<p style="margin: 0; font-size: 12px;">Usuarios</p>
+																												</a>
+																								</strong>
+																				</li>
+																				<li style="text-align: center; flex: 1;">
+																								<strong>
+																												<a href="{{ route("historial") }}" style="text-decoration: none; ">
+																																<i class="fa-solid fa-scale-unbalanced-flip" style="font-size: 30px;"></i>
+																																<p style="margin: 0; font-size: 12px;">Historial</p>
+																												</a>
+																								</strong>
 																				</li>
 
-																				<li>
+																				<li style="text-align: center; flex: 1;">
 																								<form action="{{ route("logout") }}" method="POST">
 																												@csrf
 																												<button type="submit" style="border:none; background-color: transparent; color:white;">
-																																<strong><i class="bi bi-box-arrow-right" style="font-size: 30px;"></i></strong></button>
+																																<strong><i class="bi bi-box-arrow-right" style="font-size: 30px;"></i></strong>
+																												</button>
 																								</form>
 																				</li>
-
 																</ul>
 												</nav>
+
 								@endauth
 
 								{{ $slot }}
@@ -121,6 +140,11 @@
 																text-decoration: none;
 																color: white;
 												}
+
+												a:hover {
+																color: rgb(255, 111, 0);
+												}
+											
 								</style>
 
 				</body>

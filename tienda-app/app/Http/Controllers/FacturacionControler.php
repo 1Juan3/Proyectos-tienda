@@ -8,6 +8,7 @@ use App\Models\Client;
 use App\Models\Ventas;
 use Illuminate\Support\Facades\DB;
 use App\Models\Abonos;
+use App\Models\Tiendas;
 use Illuminate\Support\Str;
 
 class FacturacionControler extends Controller
@@ -18,7 +19,10 @@ class FacturacionControler extends Controller
         $productosEnCarrito = Cart::content();
 
         // Obtener todos los clientes
-        $clientes = Client::all();
+        $id_tienda = session('tienda_seleccionada');
+
+        // Filtrar los clientes por el ID de la tienda
+        $clientes = Client::where('tienda_id', $id_tienda)->get();
 
         return view('ventas.tablacarrito', compact('productosEnCarrito', 'clientes'));
     }
@@ -83,9 +87,10 @@ class FacturacionControler extends Controller
 
     {   
         $tiendaIdDefault = session('tienda_seleccionada');
+        $tienda = Tiendas::find($tiendaIdDefault);
         $ventas = Ventas::where('venta_id', $id)->distinct('venta_id')->get();
 
-        return view('ventas.factura', compact('ventas'));
+        return view('ventas.factura', compact('ventas', 'tienda' ));
     }
 
     public function indexVentas()
@@ -122,8 +127,8 @@ class FacturacionControler extends Controller
     }
 
     public function abonoView($venta_id)
-    {
-        return view('ventas.abono', compact('venta_id'));
+    {   $venta = Ventas::where('venta_id', $venta_id)->first();
+        return view('ventas.abono', compact('venta_id', 'venta'));
     }
 
     public function historialAbonos($id)

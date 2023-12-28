@@ -9,6 +9,7 @@ use App\Http\Controllers\FacturacionControler;
 use App\Http\Controllers\TiendaController;
 use App\Http\Controllers\ProveedorController;
 use App\Http\Controllers\LayoutController;
+use App\Http\Controllers\UserControler;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -35,16 +36,30 @@ Route::middleware('auth')->group(function () {
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 });
 
-// Rutas para manejar productos
+//rutas para manejar usuarios 
 Route::middleware(['auth'])->group(function () {
+    Route::controller(UserControler::class)->group(function () {
+        Route::get('/users', 'index')->name('users');
+        Route::post('/users-cerar', 'store')->name('crear.users');
+        Route::get('/asignar-rol/{id}', 'asignarRolIndex')->name('asignar.rol');
+        Route::post('/asignar-rol/{id}', 'asignarRol')->name('poner.rol');
+    });
+});
+
+// Rutas para manejar productos
+Route::middleware(['auth', 'can:indexPorduct'])->group(function () {
     Route::controller(ProductoController::class)->group(function () {
         Route::get('/actualizar/{id}', 'actualizarProducto')->name('verActualizarPorduct');
         Route::get('/imagenproducto/{path}', 'verImagen')->name('verImagen');
         Route::get('/delete/{id}', 'delete')->name('deletePorduct');
         Route::get('/productos/{id}', 'index')->name('indexPorduct');
+        Route::get('/ver/transferencias', 'historialPasar')->name('producto.transferencias');
+        Route::get('/pasar/producto/{id}', 'viewPasar')->name('pasar.product');
+        Route::post('/transfeir/producto/{id}', 'transferirProducto')->name('transfeir.producto');
         Route::post('/agregar_productos', 'crearProducto')->name('postPorduct');
         Route::post('update/producto/{id}', 'updateProducto')->name('updatedProducto');
         Route::post('/delete/{id}', 'delete')->name('deletePorduct');
+        
     });
 });
 
@@ -99,9 +114,12 @@ Route::middleware(['auth'])->group(function () {
 // Rutas para manejar tiendas
 Route::middleware(['auth'])->group(function () {
     Route::controller(TiendaController::class)->group(function () {
-        Route::view('/crear-tienda', 'tienda.crear')->name('indexTienda');
-        Route::get('/tiendas', 'index')->name('indexTiendas');
+        Route::get('/tiendas/inicio', 'index')->name('indexTiendas');
+        Route::get('/tienda', 'indexTienda')->name('index.tiendas');
         Route::post('/tienda', 'store')->name('storeTienda');
+        Route::get('/tienda/editar/{id}', 'update')->name('edit.tienda');
+        Route::post('/tienda/editar/{id}', 'edit')->name('update.tienda');
+        Route::get('/tienda/eliminar/{id}', 'destroy')->name('destroy.tienda');
         Route::get('/tiendas/{id}', 'seleccionarTienda')->name('showTiendas');
         
     });

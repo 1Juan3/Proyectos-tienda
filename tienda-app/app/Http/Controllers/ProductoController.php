@@ -6,7 +6,8 @@ use Illuminate\Http\Request;
 use App\Models\Producto;
 use App\Models\Entradas;
 use App\Models\Tiendas;
-
+use App\Models\User;
+use App\Models\Tranferencias;
 class ProductoController extends Controller
 {
     public function index(Request $request)
@@ -22,7 +23,7 @@ class ProductoController extends Controller
             $tiendaId = session('tienda_seleccionada');
 
             $tiendas = Tiendas::where('id', '!=', $tiendaId)->get();
-           
+
             // Filtra los productos por el id de la tienda
             $productos = Producto::where('tienda_id', $tiendaId)->get();
             
@@ -33,7 +34,6 @@ class ProductoController extends Controller
 
     public function crearProducto(Request $request)
     {
-        $tiendasSeleccionadas = $request->input('tienda_id');
         // Obtener datos del formulario
         $nombre = $request->input('nombre');
         $codigo = $request->input('codigo');
@@ -127,39 +127,75 @@ class ProductoController extends Controller
 
     public function updateProducto(Request $request, $id)
     {
+        $tiendaIdDefault = session('tienda_seleccionada');
         $producto = Producto::find($id);
         if (!$producto) {
             abort(404); // Maneja el caso de que no se encuentre el producto
         }
         $producto->update($request->all());
         toastr()->warning('¡El producto se actualizó correctamente!', 'Actualizado');
-        return redirect()->route('indexPorduct');
+        return redirect()->route('indexPorduct', $tiendaIdDefault);
     }
 
-    public function pasarProducto(Request $request, $producto_id)
+    public function transferirProducto(Request $request, $producto_id)
     {
-        $tienda_id = $request->input('tienda_id');
-        $cantidad = $request->input('cantidad');
-
-        // Obtener el producto original
+        $tiendaIds = $request->input('tienda_id');
+        $stock = $request->input('stock');
         $productoOriginal = Producto::find($producto_id);
+    
+        foreach ($tiendaIds as $tiendaId) {
+            // Verificar si el producto ya existe en la tienda
+            $productoExistente = Producto::where('tienda_id', $tiendaId)
+                ->where('nombre', $productoOriginal->nombre)
+                ->first();
+    
+            if ($productoExistente) {
+                // Si el producto ya existe, simplemente actualiza la cantidad
+                $productoExistente->increment('stock', $stock);
+            } else {
+                // Si el producto no existe, duplica el producto original
+                $nuevoProducto = $productoOriginal->replicate();
+                $nuevoProducto->tienda_id = $tiendaId;
+                $nuevoProducto->stock = $stock;
+                $nuevoProducto->save();
+            }
+            $tiendaIdDefault = session('tienda_seleccionada');
+            $tiendaPrincipal = Tiendas::find($tiendaIdDefault);
+            $tiendaTrasfe = Tiendas::find($tiendaId);
+            $nombre_tienda1= $tiendaTrasfe->nombre_tienda;
+            $nombre_producto = $productoOriginal->nombre;
+            $transferencia = New Tranferencias();
+            $transferencia->nombre_producto = $nombre_producto;
+            $transferencia->nombre_tienda = $tiendaPrincipal->nombre_tienda;
+            $transferencia->nombre_tienda1 = $nombre_tienda1;
+            $transferencia->stock = $stock;
+            $transferencia->save();
 
-        // Duplicar el producto original con replicate
-        $nuevoProducto = $productoOriginal->replicate();
-
-        // Asignar la nueva tienda al nuevo producto
-        $nuevoProducto->tienda_id = $tienda_id;
-
-        // Guardar el nuevo producto
-        $nuevoProducto->save();
-
+        }
+    
         // Restar la cantidad del producto original
-        $cantidadADescontar = 1; // Puedes ajustar esto según tus necesidades
-        $productoOriginal->decrement('cantidad', $cantidadADescontar);
-
+        $productoOriginal->decrement('stock', $stock);
+    
         // Redireccionar o mostrar la vista
-        return view('productos.pasar', compact('nuevoProducto'));
+        $tiendaIdDefault = session('tienda_seleccionada');
+        return redirect()->route('indexPorduct', $tiendaIdDefault);
     }
+
+    public function historialPasar(){
+        $transferencias = Tranferencias::all();
+        return view('productos.viewpasar', compact('transferencias'));
+    }
+    
+
+    public function viewPasar($id){
+        $producto = Producto::find($id);
+        $tiendaId = session('tienda_seleccionada');
+
+        $tiendas = Tiendas::where('id', '!=', $tiendaId)->get();
+        
+        return view('productos.tranferir', compact('tiendas', 'producto'));
+    }
+    
 
     public function delete($id)
     {

@@ -12,30 +12,39 @@ class TiendaController extends Controller
         $tiendas = Tiendas::all();
         return view('tienda.mostrar', compact('tiendas'));
     }
+    public function indexTienda()
+    {
+        $tiendas = Tiendas::all();
+        return view('tienda.crear', compact('tiendas'));
+    }
     public function store(Request $request)
     {
-
         $nombre_tienda = $request->input('nombre_tienda');
-        $logo = $request->file('logo');
-        $nit = $request->input('nit');
+        $logo_tienda = $request->file('logo');
+        $nit = $request->input('nit_tienda');
         $email_tienda = $request->input('email_tienda');
         $telefono_tienda = $request->input('telefono_tienda');
         $direccion_tienda = $request->input('direccion_tienda');
-
-
-        if ($logo) {
-            $ruta_imagen_logo = $logo->storeAs('', $logo . '.webp', 'disco_imagenes');
+    
+        if ($logo_tienda) {
+            // Genera un nombre único para el archivo
+            $ruta_imagen_tienda = $logo_tienda->storeAs('', $nombre_tienda . '_tienda_'  . '.webp', 'disco_imagenes');
+            // Almacena la imagen con el nombre único
+           
+    
             $tienda = new Tiendas;
             $tienda->nombre_tienda = $nombre_tienda;
-            $tienda->logo = $ruta_imagen_logo;
-            $tienda->nit = $nit;
+            $tienda->logo_tienda = $ruta_imagen_tienda;
+            $tienda->nit_tienda = $nit;
             $tienda->email_tienda = $email_tienda;
             $tienda->telefono_tienda = $telefono_tienda;
             $tienda->direccion_tienda = $direccion_tienda;
             $tienda->save();
-            return redirect()->route('tienda.index')->whit('creado', 'Tienda Creada Correctamente');
+    
+            return redirect()->route('index.tiendas')->with('creado', 'Tienda Creada Correctamente');
         }
     }
+    
 
     public function verLogo($path)
     {
@@ -44,10 +53,33 @@ class TiendaController extends Controller
         return response()->file($rutaLogo);
     }
 
-    public function edit($id)
+    public function edit(Request $request, $id)
     {
+            
+        $tienda = Tiendas::find($id);
+    
+        if (!$tienda) {
+            abort(404); // Maneja el caso de que no se encuentre la tienda
+        }
+        
+        $tienda->update($request->all());
+            toastr()->warning('¡La tienda se actualizó correctamente!', 'Actualizado');
+       
+    
+        return redirect()->route('index.tiendas');
+     
+    }
+
+    public function update(Request $request, $id) {
+       
         $tienda = Tiendas::find($id);
         return view('tienda.editar', compact('tienda'));
+    }
+    
+    public function destroy($id){
+        $tienda = Tiendas::find($id);
+        $tienda->delete();
+        return redirect()->route('index.tiendas')->with('eliminar', 'ok');
     }
 
   
