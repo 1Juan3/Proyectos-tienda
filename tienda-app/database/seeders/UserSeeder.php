@@ -16,7 +16,6 @@ class UserSeeder extends Seeder
             'name' => 'Admin',
             'email' => 'admin@localhost',
             'username'=> 'admin',
-            'id_tienda'=>1,
             'password' => bcrypt('1234'),
         ])->assignRole('Admin');
     }
